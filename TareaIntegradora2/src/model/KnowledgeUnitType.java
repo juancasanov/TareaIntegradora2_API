@@ -2,6 +2,6 @@ package model;
 
 public enum KnowledgeUnitType {
     
-    DEFAULT, TECHNICAL, DOMAIN, EXPERIENCES;
+    DEFAULT, TECHNICAL, MANAGEMENT, DOMAIN, EXPERIENCES;
 
 }

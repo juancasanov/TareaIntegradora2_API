@@ -1,15 +1,18 @@
 package model;
 
+import java.util.Calendar;
+
 public class Stage {
 
     private StageName name;
-    private String planedStartDate;
-    private String planedEndDate;
-    private String startDate;
-    private String endDate;
+    private Calendar planedStartDate;
+    private Calendar planedEndDate;
+    private Calendar startDate;
+    private Calendar endDate;
     private StageStatus status;
+    private KnowledgeUnit[] knowledgeUnit;
 
-    public Stage(StageName name, String planedStartDate, String planedEndDate, String startDate, String endDate, StageStatus status) {
+    public Stage(StageName name, Calendar planedStartDate, Calendar planedEndDate, Calendar startDate, Calendar endDate, StageStatus status) {
 
         this.name = name;
         this.planedStartDate = planedStartDate;
@@ -17,55 +20,77 @@ public class Stage {
         this.startDate = startDate;
         this.endDate = endDate;
         this.status = status;
-        
+        this.knowledgeUnit = new KnowledgeUnit[50];
     }
 
     public StageName getName() {
+
         return name;
     }
 
     public void setName(StageName name) {
+
         this.name = name;
     }
 
-    public String getPlanedStartDate() {
+    public Calendar getPlanedStartDate() {
+
         return planedStartDate;
     }
 
-    public void setPlanedStartDate(String planedStartDate) {
+    public void setPlanedStartDate(Calendar planedStartDate) {
+
         this.planedStartDate = planedStartDate;
     }
 
-    public String getPlanedEndDate() {
+    public Calendar getPlanedEndDate() {
+
         return planedEndDate;
     }
 
-    public void setPlanedEndDate(String planedEndDate) {
+    public void setPlanedEndDate(Calendar planedEndDate) {
+
         this.planedEndDate = planedEndDate;
     }
 
-    public String getStartDate() {
+    public Calendar getStartDate() {
+
         return startDate;
     }
 
-    public void setStartDate(String startDate) {
+    public void setStartDate(Calendar startDate) {
+
         this.startDate = startDate;
     }
 
-    public String getEndDate() {
+    public Calendar getEndDate() {
+
         return endDate;
     }
 
-    public void setEndDate(String endDate) {
+    public void setEndDate(Calendar endDate) {
+
         this.endDate = endDate;
     }
 
     public StageStatus getStatus() {
+
         return status;
     }
 
     public void setStatus(StageStatus status) {
+
         this.status = status;
     }
-    
+
+    public KnowledgeUnit[] getKnowledgeUnit() {
+
+        return knowledgeUnit;
+    }
+
+    public void setKnowledgeUnit(KnowledgeUnit[] knowledgeUnit) {
+        
+        this.knowledgeUnit = knowledgeUnit;
+    }
+
 }
