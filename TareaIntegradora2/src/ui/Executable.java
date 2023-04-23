@@ -1,8 +1,8 @@
 package ui;
 
 import java.util.Scanner;
+import java.util.Calendar;
 import model.Controller;
-
 
 public class Executable {
 
@@ -82,7 +82,23 @@ public class Executable {
 
     public void createProject() {
 
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int startDay = 0;
+        int startMonth = 0;
+        int startYear = 0;
+        int endDay = 0;
+        int endMonth = 0;
+        int endYear = 0;
         int[] stageTime = new int[6];
+        String[] stageName = new String[6];
+
+        stageName[0] = "start";
+        stageName[1] = "analisys";
+        stageName[2] = "design";
+        stageName[3] = "ejecution";
+        stageName[4] = "end";
+        stageName[5] = "control";
 
         System.out.println("Enter the project's information below");
         reader.nextLine();
@@ -93,23 +109,65 @@ public class Executable {
         System.out.println("Provide the client's name");
         String clientName = reader.nextLine();
 
-        System.out.println("Provide the planned start date for the project:");
-        System.out.println("Enter the day");
-        String startDay = reader.nextLine();
-        System.out.println("Enter the month"); 
-        String startMonth = reader.nextLine();
-        System.out.println("Enter the year"); 
-        String startYear = reader.nextLine();
+        do { 
+            System.out.println("Provide the planned start date for the project:");
+            System.out.println("Enter the day: format dd");
+            startDay = reader.nextInt();
 
-        System.out.println("Provide the planned end date for the project:");
-        System.out.println("Enter the day");
-        String endDay = reader.nextLine();
-        System.out.println("Enter the month"); 
-        String endMonth = reader.nextLine();
-        System.out.println("Enter the year"); 
-        String endYear = reader.nextLine();
+            if (startDay < 1 || startDay > 31) {
+                System.out.println("Day out of bounds. Please, enter it again");
+            }
+        } while (startDay < 1 || startDay > 31);
+        
+        do {
+            System.out.println("Enter the month: format mm"); 
+            startMonth = reader.nextInt();
 
-        System.out.print("Provide the project's budged");
+            if (startMonth < 1 || startMonth > 12) {
+                System.out.println("Month out of bounds. Please, enter it again");
+            }
+        } while (startMonth < 1 || startMonth > 12);
+        
+        do {
+            System.out.println("Enter the year: format yyyy"); 
+            startYear = reader.nextInt();
+
+            if (startYear < year) {
+                System.out.println("Year out of bounds. Please, enter future years");
+            } if (startYear < 1000 || startYear > 9999) {
+                System.out.println("Provide a year with four characters");
+            }
+        } while (startYear < year && (startYear < 1000 || startYear > 9999));
+
+        do { 
+            System.out.println("Provide the planned end date for the project:");
+            System.out.println("Enter the day: format dd");
+            endDay = reader.nextInt();
+
+            if (endDay < 1 || endDay > 31) {
+                System.out.println("Day out of bounds. Please, enter it again");
+            }
+        } while (endDay >= 1 && endDay <= 31);
+        
+        do {
+            System.out.println("Enter the month: format mm"); 
+            endMonth = reader.nextInt();
+
+            if (endMonth < 1 || endMonth > 12) {
+                System.out.println("Month out of bounds. Please, enter it again");
+            }
+        } while (endMonth >= 1 && endMonth <= 12);
+        
+        do {
+            System.out.println("Enter the year: format yyyy"); 
+            endYear = reader.nextInt();
+
+            if (endYear < startYear) {
+                System.out.println("The end year must not be higher than the start date. Please, enter it again");
+            }
+        } while (endYear < 1000 || endYear > 9999 && endYear >= startYear);
+
+        System.out.print("Provide the project's budged \n");
         double budged = reader.nextDouble();
 
         reader.nextLine();
@@ -117,18 +175,18 @@ public class Executable {
         System.out.print("Provide the name of the GreenSQA project manager");
         String greenManagerName = reader.nextLine();
          
-        System.out.print("Provide the celphone of the GreenSQA project manager");
+        System.out.print("Provide the phone number of the GreenSQA project manager");
         String greenManagerPhoneNumber = reader.nextLine();
 
         System.out.print("Provide the name of the client project manager");
         String clientManagerName = reader.nextLine();
          
-        System.out.print("Provide the celphone of the client project manager");
+        System.out.print("Provide the phone number of the client project manager");
         String clientManagerPhoneNumber = reader.nextLine();
         
         for (int i = 0; i < stageTime.length; i++) {
 
-            System.out.println("How many months stage " + (i + 1) + " will take");
+            System.out.println("How many months " + stageName[i] + " stage will take");
             stageTime[i] = reader.nextInt();
         }
        
@@ -288,9 +346,11 @@ public class Executable {
 
     public void showLearnedLessonsBySearch() {
 
+        reader.nextLine();
+
         System.out.println("Type the learned lessons you want to search for:");
         String search = reader.nextLine();
 
-        controller.showLearnedLessonsBySearch(search);
+        System.out.println(controller.showLearnedLessonsBySearch(search));
     }
 }

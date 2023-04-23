@@ -16,9 +16,27 @@ public class Controller {
 		stages = new Stage[6];
 	}
 
-	public boolean createProyect(String proyectName, String clientName, String startDay, String startMonth, String startYear, String endDay, String endMonth, String endYear, double budget, String greenManagerName, String greenManagerPhoneNumber, String clintManagerName, String clientManagerPhoneNumber, int[] stageTime) {
+	/**
+	 * Description: String createProject Method allow to register a project. 
+	 * @param proyectName String is the project name.
+	 * @param clientName String is the client name.
+	 * @param startDay int is the day of the planned start date.
+	 * @param startMonth int is the month of the planned start date.
+	 * @param startYear int is the year of the planned start date. 
+	 * @param endDay int is the day of the planned end date. 
+	 * @param endMonth int is the month of the planned end date. 
+	 * @param endYear int is the year of the planned end year. 
+	 * @param budget double is the projects budget. 
+	 * @param greenManagerName String is the name of the GreenSQA project manager. 
+	 * @param greenManagerPhoneNumber String is the phone number of the GreenSQA project manager.
+	 * @param clintManagerName String is the name if the client project manager. 
+	 * @param clientManagerPhoneNumber String is the phone number of the GreenSQA project manager. 
+	 * @param stageTime int is the array that contains the number of months each stage will take. 
+	 * @return bolean true if the project is registered correctly. 
+	 */
+	public boolean createProyect(String proyectName, String clientName, int startDay, int startMonth, int startYear, int endDay, int endMonth, int endYear, double budget, String greenManagerName, String greenManagerPhoneNumber, String clintManagerName, String clientManagerPhoneNumber, int[] stageTime) {
 
-		Calendar plannedDate0 = new GregorianCalendar(Integer.parseInt(startYear), Integer.parseInt(startMonth)-1, Integer.parseInt(startDay));
+		Calendar plannedDate0 = new GregorianCalendar(startYear, startMonth - 1, startDay);
 		
 		Calendar plannedDate1 = plannedDate0;
 		plannedDate1.add(Calendar.MONTH, stageTime[0]);
@@ -60,6 +78,10 @@ public class Controller {
 		return false; 
 	}
 
+	/**
+	 * Description: String showAllProjects shows all the project registered. 
+	 * @return msg String is the list of projects registered. 
+	 */
 	public String showAllProjects() {
 
 		String msg = "Projects registered:";
@@ -76,27 +98,32 @@ public class Controller {
 	}
 
 	/**
-	* Description: The approveKnowledgeUnit method will allow change the status of a knowledge unit.
-	* @param position int is the position of the knowlege unit which status will be change.
-	* @return void
-	*/
+	 * Description: boolean setStageAsComplete allows to register the culmination of a project stage. 
+	 * @param project int is the project position in the projecs array.
+	 * @param stage int is the stage position in the stages array.
+	 * @return true if the culmination was correctly registered. 
+	 */
+	public boolean setStageAsComplete(int project, int stage) {
 
-public boolean setStageAsComplete(int project, int stage) {
+		Calendar approvalDate = Calendar.getInstance();
 
-	Calendar approvalDate = Calendar.getInstance();
+		projects[project-1].getStages()[stage-1].setStatus(StageStatus.INACTIVE);
+		projects[project-1].getStages()[stage-1].setEndDate(approvalDate);
 
-	projects[project-1].getStages()[stage-1].setStatus(StageStatus.INACTIVE);
-	projects[project-1].getStages()[stage-1].setEndDate(approvalDate);
+		if (stage != 6) {
 
-	if (stage != 6) {
+			projects[project-1].getStages()[stage].setStatus(StageStatus.ACTIVE);
+			projects[project-1].getStages()[stage].setStartDate(approvalDate);
+		}
 
-		projects[project-1].getStages()[stage].setStatus(StageStatus.ACTIVE);
-		projects[project-1].getStages()[stage].setStartDate(approvalDate);
+		return true;
 	}
 
-	return true;
-}
-
+	/**
+	 * Description: String showAllStages shows all the stages of a project. 
+	 * @param projectSelected int is the project position in projects array. 
+	 * @return msg String is the stages list. 
+	 */
 	public String showAllStages(int projectSelected) {
 
 		String msg = "Stages list:";
@@ -120,9 +147,13 @@ public boolean setStageAsComplete(int project, int stage) {
 
 	/**
 	* Description: The registerKnowledgeUnit method will allow to register a knowledge unit with all its attributes.
+	* @param selectedProject int is the project position in the project array.
+	* @param selectedStage int is the stage position in the stage array.
 	* @param id String is the knowledge unit identification.
 	* @param description String is a short description of the knowledge unit. 
 	* @param type String is the knowledge units type (thecnical or experiences).
+	* @param collaboratorName String is the collaborator name.
+	* @param collaboratorCharge String is the collaborator charge.
 	* @param learnedLessons String is the learned lesson. 
 	* @return true boolean.
 	*/
@@ -166,10 +197,13 @@ public boolean setStageAsComplete(int project, int stage) {
 	}
 
 	/**
-	* Description: The toApproveKnowledgeUnit method will allow recolect the id and the status of each knowlege unit and create a message.
-	* @return msg String is the knowledge units list.
-	*/
-
+	 * Description: boolean approveKnowledgeUnit allows to register the knowlegde unit approval. 
+	 * @param projectSelected int is the project position in the projects array. 
+	 * @param stageSelected int is the stage position in the stages array. 
+	 * @param knowledgeUnitSelected int id the knoeledge unit position int the units array. 
+	 * @param approvalElection int is the seleccion between approved or disapproved. 
+	 * @return bolean true if the methos was correctly executated. 
+	 */
 	public boolean approveKnowledgeUnit(int projectSelected, int stageSelected, int knowledgeUnitSelected, int approvalElection) {
 
 		Calendar approvalDate = Calendar.getInstance();
@@ -196,10 +230,13 @@ public boolean setStageAsComplete(int project, int stage) {
 	}
 
 	/**
-	* Description: The getAllknowledgeUnits method will allow to show all attributes of each knowledge unit.
-	* @return msg String.
-	*/
-
+	 * Description: boolean publishKnowledgeUnit allows to store the url of a published knowledge unit. 
+	 * @param projectSelected int is the project position in the projects array. 
+	 * @param stageSelected int is the stage position in the stages array. 
+	 * @param knowledgeUnitSelected int id the knoeledge unit position int the units array.
+	 * @param url String is the url of a published knowledge unit.
+	 * @return true.
+	 */
 	public boolean publishKnowledgeUnit(int projectSelected, int stageSelected, int knowledgeUnitSelected, String url) {
 
 		projects[projectSelected-1].getStages()[stageSelected-1].getKnowledgeUnit()[knowledgeUnitSelected-1].setUrl(url);
@@ -207,6 +244,12 @@ public boolean setStageAsComplete(int project, int stage) {
 		return true; 
 	}
 
+	/**
+	 * Description: String showAllKnowledgeUnits show all the knowledge units of a project stage. 
+	 * @param projectSelected int is the project position in the projects array. 
+	 * @param stageSelected int is the stage position in the stages array. 
+	 * @return String msg is the list of knowledge units. 
+	 */
 	public String showAllKnowledgeUnits(int projectSelected, int stageSelected) {
 
 		String msg = "Knowledge units list:\n";
@@ -233,6 +276,10 @@ public boolean setStageAsComplete(int project, int stage) {
 		return msg;
 	}
 
+	/**
+	 * Description: String countKnowledgeUnitsByType allows to count how many knowledge units there are by each type. 
+	 * @return msg String list of knowledge by type. 
+	 */
 	public String countKnowledgeUnitsByType() {
 
 		String msg = "";
@@ -284,6 +331,11 @@ public boolean setStageAsComplete(int project, int stage) {
 		return msg;
 	}
 
+	/**
+	 * Description: String showLearnedLessons shows the learned lessons of all projects in a specfic stage. 
+	 * @param stageSelected String is the stage position in the stage array. 
+	 * @return String msg is the list of learned lessons. 
+	 */
 	public String showLearnedLessons(int stageSelected) {
 
 		StageName stageName = StageName.DEFAULT;
@@ -337,6 +389,10 @@ public boolean setStageAsComplete(int project, int stage) {
 		return msg;
 	}
 
+	/**
+	 * Description: String projectWithMoreKnowledgeUnits shows the project with more knowledge units. 
+	 * @return	msg String is name of the project with more knowledge units. 
+	 */
 	public String projectWithMoreKnowledgeUnits() {
 
 		String msg = "";
@@ -385,6 +441,11 @@ public boolean setStageAsComplete(int project, int stage) {
 		return msg;
 	}
 
+	/**
+	 * Description: int showIfCollaboratorHasRegisteredKnowledgeUnits shows if a collaborator has registered a knowledge unit. 
+	 * @param collaboratorName String is the collaborator name. 
+	 * @return int numberOfKnowledgeUnits is the number of units that the cullaborator has created. 
+	 */
 	public int showIfCollaboratorHasRegisteredKnowledgeUnits(String collaboratorName) {
 
 		int numberOfKnowledgeUnit = 0;
@@ -420,27 +481,32 @@ public boolean setStageAsComplete(int project, int stage) {
 		return numberOfKnowledgeUnit;
 	}
 
+	/**
+	 * Description: String showLearnedLessonsBySearch shows the learn lessons of a approved and piblished project according to a search index.
+	 * @param search String is the search index. 
+	 * @return String msg is the list of learned lessons. 
+	 */
 	public String showLearnedLessonsBySearch(String search) {
 
-		String msg = "";
+		String msg = "Learned lessons according to your search: ";
 		String projectName = "";
 
-		Stage[] stagesFor = new Stage[5];
+		Stage[] stagesFor = new Stage[6];
 		KnowledgeUnit[] knowledgeUnitFor = new KnowledgeUnit[50];
 
 
-		for (int p = 0; p <= projects.length; p++) {
+		for (int p = 0; p < projects.length; p++) {
 
 			if (projects[p] != null) {
 
 				projectName = projects[p].getProyectName();
 				stagesFor = projects[p].getStages();
 
-				for (int i = 0; i <= stagesFor.length; i++) {
+				for (int i = 0; i < stagesFor.length; i++) {
 
 					knowledgeUnitFor = stagesFor[i].getKnowledgeUnit();
 					
-					for (int s = 0; s <= knowledgeUnitFor.length; s++) {
+					for (int s = 0; s < knowledgeUnitFor.length; s++) {
 
 						if (knowledgeUnitFor[s] != null) {
 		
@@ -448,7 +514,10 @@ public boolean setStageAsComplete(int project, int stage) {
 
 								if (knowledgeUnitFor[s].getLearnedLessons().toLowerCase().contains(search.toLowerCase())) {
 
-									msg += "\n" + (s + 1) + ") " + knowledgeUnitFor[s].getLearnedLessons();
+									msg += "\n" + projects[p].getProyectName() + ": " + knowledgeUnitFor[s].getLearnedLessons();
+								} else {
+
+									msg = "No results";
 								}
 
 							}
